@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Seat Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1 class="text-center">Bus Booking System</h1>  
+    <div class="container">  
+        <form id="bookingForm" th:action="@{/tickets/book}" method="post">
+            <input type="hidden" name="busId" th:value="${busDetails.busId}" />
+            <input type="hidden" name="journeyDate" th:value="${journeyDate}" />
+            <input type="hidden" name="seatIds" id="seatIds" />
+
+            <!-- Table for selecting seats (unchanged) -->
+            <!-- ... -->
+
+            <h3 class="mt-4">Passenger Information</h3>
+            <div id="passenger-container">
+                <div class="passenger-form">
+                    <div class="mb-3">
+                        <label for="passenger-name-0">Name</label>
+                        <input type="text" id="passenger-name-0" name="passengers[0].name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passenger-age-0">Age</label>
+                        <input type="number" id="passenger-age-0" name="passengers[0].age" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="passenger-gender-0">Gender</label>
+                        <select id="passenger-gender-0" name="passengers[0].gender" class="form-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-secondary" id="addPassenger">Add Passenger</button>
+            <button type="submit" class="btn btn-primary ">Book Seats</button>
+        </form>
+    </div>
+
+    <script>
+        let passengerIndex = 1;
+        document.getElementById('addPassenger').addEventListener('click', function() {
+            const passengerContainer = document.getElementById('passenger-container');
+
+            const newPassengerForm = document.createElement('div');
+            newPassengerForm.classList.add('passenger-form');
+            newPassengerForm.innerHTML = `
+                <div class="mb-3">
+                    <label for="passenger-name-${passengerIndex}">Name</label>
+                    <input type="text" id="passenger-name-${passengerIndex}" name="passengers[${passengerIndex}].name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="passenger-age-${passengerIndex}">Age</label>
+                    <input type="number" id="passenger-age-${passengerIndex}" name="passengers[${passengerIndex}].age" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="passenger-gender-${passengerIndex}">Gender</label>
+                    <select id="passenger-gender-${passengerIndex}" name="passengers[${passengerIndex}].gender" class="form-select">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            `;
+            passengerContainer.appendChild(newPassengerForm);
+            passengerIndex++;
+        });
+    </script>
+</body>
+</html>

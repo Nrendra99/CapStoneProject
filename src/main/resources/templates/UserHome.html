@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Home</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        h1 {
+            text-align: center; /* Center align header */
+            background-color: rgba(224, 165, 15, 0.932); /* Header background color */
+            color: rgb(0, 0, 0); /* Header text color */
+            padding: 5px; /* Padding for header */
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-center">Bus Booking System</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/users/home}">Home</a> <!-- Home link -->
+            <div id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/details}">Manage My Details</a> <!-- Manage User Details link -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/tickets}">View My Tickets</a> <!-- View User Tickets link -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a> <!-- Logout link -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <h2 class="text-center">Ticket Search</h2>
+    <div class="container mt-4">  
+        <!-- Success message display -->
+        <div th:if="${SuccessMessage}" class="alert alert-success" role="alert">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <!-- Error message display -->
+        <div th:if="${ErrorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${ErrorMessage}"></span>
+        </div>  
+
+        <!-- Form to search for available buses -->
+        <form th:action="@{/tickets/available}" method="get" class="mb-4">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <input type="date" name="date" class="form-control" required> <!-- Date input -->
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="startingCity" class="form-control" placeholder="Starting City" required> <!-- Starting city input -->
+                </div>
+                <div class="col-md-4">
+                    <input type="text" name="destination" class="form-control" placeholder="Destination City" required> <!-- Destination city input -->
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">Search Buses</button> <!-- Search button -->
+            </div>
+        </form>
+
+        <!-- Loop through each bus and display information -->
+        <div th:each="bus : ${buses}" class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <!-- Displaying Starting Time and City -->
+                    <div>
+                        <p><strong>Start Time:</strong> <span th:text="${bus.busSchedule.startTime}"></span></p>
+                        <p><strong>Starting City:</strong> <span th:text="${bus.busSchedule.startingCity}"></span></p>
+                    </div>
+
+                    <!-- Displaying Total Journey Time -->
+                    <div class="text-center">
+                        <p><strong>Total Journey Time:</strong> <span th:text="${bus.busSchedule.getFormattedJourneyTime}"></span></p>
+                    </div>
+
+                    <!-- Displaying End Time and Destination City -->
+                    <div>
+                        <p><strong>End Time:</strong> <span th:text="${bus.busSchedule.endTime}"></span></p>
+                        <p><strong>Destination City:</strong> <span th:text="${bus.busSchedule.destination}"></span></p>
+                    </div>
+                </div> 
+                <div class="text-center">
+                    <a th:href="@{/tickets/details/{busId} (busId=${bus.id}, date=${param.date})}" class="btn btn-primary">View Seats</a> <!-- Link to view seats for the selected bus -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle for functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

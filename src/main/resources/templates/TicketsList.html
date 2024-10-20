@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        h1 {
+            text-align: center;
+            background-color: rgba(224, 165, 15, 0.932);
+            color: rgb(0, 0, 0);
+            padding: 5px;
+        }
+        .table-container {
+            margin: 0 auto;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bus Booking System</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/users/home}">Home</a>
+            <div id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/details}">Manage My Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/users/tickets}">View My Tickets</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a> <!-- Logout link -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="table-container">
+        <h2 class="text-center">Ticket Management</h2>
+        <div class="container mt-5">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>Bus</th>
+                        <th>Origin City</th>
+                        <th>Boarding Time</th>
+                        <th>Destination</th>
+                        <th>End Time</th> 
+                        <th>Journey Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through the list of tickets passed from the controller -->
+                    <tr th:each="ticket : ${tickets}">
+                        <td class="text-center" th:text="${ticket.id}"></td>
+                        <td class="text-center" th:text="${ticket.bus.number}"></td>
+                        <td class="text-center" th:text="${ticket.bus.busSchedule.startingCity}"></td>
+                        <td class="text-center" th:text="${ticket.bus.busSchedule.startTime}"></td>
+                        <td class="text-center" th:text="${ticket.bus.busSchedule.destination}"></td>
+                        <td class="text-center" th:text="${ticket.bus.busSchedule.endTime}"></td>
+                        <td class="text-center" th:text="${ticket.journeyDate}"></td>
+                        <td class="text-center" th:text="${ticket.status}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/users/passengers/{ticketId}(ticketId=${ticket.id})}" class="btn btn-info btn-sm">View Passengers</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Bus</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Style for the container and form elements */
+        .container {
+            max-width: 600px;
+            margin-top: 40px;
+        }
+        .form-control {
+            margin-bottom: 15px;
+        }
+        .btn-submit {
+            width: 100%;
+        }
+        #error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            background-color: rgba(224, 165, 15, 0.932);
+            color: rgb(0, 0, 0);
+            padding: 5px;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bus Booking System</h1>
+    <!-- Navigation bar with logout link -->
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/logout}">Logout</a>
+        </li>
+    </ul>
+    <h2>Create Bus</h2>
+    <div class="container">
+           <!-- Success Message -->
+       <div th:if="${SuccessMessage}" class="alert alert-success" th:text="${SuccessMessage}"></div>
+        
+       <!-- Error Message -->
+       <div th:if="${ErrorMessage}" class="alert alert-danger" th:text="${ErrorMessage}"></div>
+        <!-- Bus creation form bound to bus object -->
+        <form id="createBusForm" th:action="@{/bus/add}" th:object="${bus}" method="post">
+            <div class="form-group">
+                <label for="number">Bus Number</label>
+                <input type="text" class="form-control" id="number" name="number" placeholder="Enter bus number" th:field="*{number}" required>
+                <!-- Error message for bus number -->
+                <div id="number-error" class="error-message" th:if="${#fields.hasErrors('number')}" th:text="${#fields.errors('number')}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="driverName">Driver's Name</label>
+                <input type="text" class="form-control" id="driverName" name="driverName" placeholder="Enter driver's name" th:field="*{driverName}" required>
+                <!-- Error message for driver's name -->
+                <div id="driverName-error" class="error-message" th:if="${#fields.hasErrors('driverName')}" th:text="${#fields.errors('driverName')}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="driverPhone">Driver's Phone</label>
+                <input type="tel" class="form-control" id="driverPhone" name="driverPhone" placeholder="Enter driver's phone" th:field="*{driverPhone}" required>
+                <!-- Error message for driver's phone -->
+                <div id="driverPhone-error" class="error-message" th:if="${#fields.hasErrors('driverPhone')}" th:text="${#fields.errors('driverPhone')}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="seatCount">Seat Count</label>
+                <input type="number" class="form-control" id="seatCount" name="seatCount" placeholder="Enter seat count" th:field="*{seatCount}" required>
+                <!-- Error message for seat count -->
+                <div id="seatCount-error" class="error-message" th:if="${#fields.hasErrors('seatCount')}" th:text="${#fields.errors('seatCount')}"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter Price Per Seat" th:field="*{price}" required>
+                <!-- Error message for price -->
+                <div id="price-error" class="error-message" th:if="${#fields.hasErrors('price')}" th:text="${#fields.errors('price')}"></div>
+            </div>
+            <!-- Submit button to create the bus -->
+            <button type="submit" class="btn btn-primary btn-submit">Create Bus</button>
+        </form>
+        <div class="text-center">
+            <!-- Back to dashboard button -->
+            <a th:href="@{/admin/home}" class="btn btn-primary mt-3">Back To Dashboard</a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

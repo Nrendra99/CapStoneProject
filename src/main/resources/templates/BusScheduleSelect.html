@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Bus Schedules</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Style for headings and container */
+        h1 {
+            text-align: center;
+            background-color: rgba(224, 165, 15, 0.932);
+            color: rgb(0, 0, 0);
+            padding: 5px;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        table {
+            margin-top: 20px;
+        }
+        .action-btns {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bus Booking System</h1>
+    <!-- Navigation bar with logout link -->
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/logout}">Logout</a> <!-- Thymeleaf logout link -->
+        </li>
+    </ul>
+    <div class="container">
+        <h2>Available Bus Schedules</h2>
+        <!-- Hidden inputs for bus and schedule IDs -->
+        <input type="hidden" name="busId" th:value="${busId}" />
+        <input type="hidden" name="scheduleId" th:value="${scheduleId}" />
+        <table class="table table-bordered">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Starting City</th>
+                    <th>Destination</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Journey Time</th> 
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody th:id="scheduleTableBody">
+                <!-- Loop through available schedules -->
+                <tr th:each="schedule : ${schedules}">
+                    <td class="text-center" th:text="${schedule.id}"></td> <!-- Schedule ID -->
+                    <td class="text-center" th:text="${schedule.startingCity}"></td> <!-- Starting city -->
+                    <td class="text-center" th:text="${schedule.destination}"></td> <!-- Destination -->
+                    <td class="text-center" th:text="${schedule.startTime}"></td> <!-- Start time -->
+                    <td class="text-center" th:text="${schedule.endTime}"></td> <!-- End time -->
+                    <td class="text-center" th:text="${schedule.getFormattedJourneyTime()}"></td> <!-- Journey time -->
+                    <td class="text-center">
+                         <!-- Link to add selected schedule -->
+                         <a class="btn btn-success" th:href="@{/bus/schedule/add/{busId}/{scheduleId}(scheduleId=${schedule.id}, busId=${busId})}">Add</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <!-- Navigation buttons back to different pages -->
+            <a class="btn btn-primary m-2" th:href="@{/Admin/Home}">Back To Admin Home</a>  
+            <a class="btn btn-primary m-2" th:href="@{/bus/manage}">Back To Manage Buses</a>  
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
